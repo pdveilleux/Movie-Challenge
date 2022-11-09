@@ -7,8 +7,14 @@ struct Home: ReducerProtocol {
     let apiService: APIService
     
     struct State: Equatable {
+        var navPath: [Route] = []
         var error: Error?
         var top5Movies: [Movie] = []
+    }
+    
+    enum Route: Hashable {
+        case movie(Movie)
+        case genre(String)
     }
     
     enum Error {
@@ -18,6 +24,8 @@ struct Home: ReducerProtocol {
     enum Action: Equatable {
         case loadTop5
         case top5Response(TaskResult<[Movie]>)
+        case viewMovie(Movie)
+        case updatePath([Route])
     }
 
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -38,6 +46,14 @@ struct Home: ReducerProtocol {
         case .top5Response(.failure):
             state.error = .unableToFetchMovies
             return .none
+            
+        case let .viewMovie(movie):
+            state.navPath.append(.movie(movie))
+            return .none
+
+        case let .updatePath(route):
+            state.navPath = route
+            return .none
         }
     }
 }
@@ -47,13 +63,22 @@ struct HomeView: View {
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            NavigationView {
+            NavigationStack(path: viewStore.binding(get: \.navPath, send: { .updatePath($0) })) {
                 ScrollView {
                     VStack {
-                        Top5View(movies: viewStore.top5Movies)
+                        Top5View(movies: viewStore.top5Movies, viewStore: viewStore)
                     }
                 }
                 .navigationTitle("Movies")
+                .navigationDestination(for: Home.Route.self) { route in
+                    switch route {
+                    case let .movie(movie):
+                        Text(movie.title)
+                        
+                    case let .genre(genre):
+                        Text(genre)
+                    }
+                }
             }
             .onAppear {
                 viewStore.send(.loadTop5)

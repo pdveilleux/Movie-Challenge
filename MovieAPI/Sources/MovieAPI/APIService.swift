@@ -86,5 +86,7 @@ extension Movie {
 }
 
 extension Movie: Equatable {}
+extension Movie: Hashable {}
 
 extension Director: Equatable {}
+extension Director: Hashable {}
