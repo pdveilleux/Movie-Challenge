@@ -62,54 +62,8 @@ struct HomeView: View {
     }
 }
 
-struct Top5View: View {
-    let movies: [Movie]
-    
-    var body: some View {
-        Section("Top 5") {
-            ScrollView(.horizontal) {
-                LazyHStack {
-                    ForEach(movies) { movie in
-                        MoviePosterView(movie: movie)
-                    }
-                }
-                .padding()
-            }
-            .scrollIndicators(.hidden)
-        }
-    }
-}
-
-struct MoviePosterView: View {
-    let movie: Movie
-    
-    var body: some View {
-        AsyncImage(url: URL(string: movie.posterPath ?? "")) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 80)
-        } placeholder: {
-            ProgressView()
-        }
-
-    }
-}
-
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(store: Store(initialState: Home.State(), reducer: Home(apiService: APIService())))
-    }
-}
-
-extension Home.State {
-    static func testState() -> Home.State {
-        .init(error: nil, top5Movies: [
-            .init(id: 1, title: "Movie 1"),
-            .init(id: 2, title: "Movie 2"),
-            .init(id: 3, title: "Movie 3"),
-            .init(id: 4, title: "Movie 4"),
-            .init(id: 5, title: "Movie 5"),
-        ])
     }
 }
