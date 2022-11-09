@@ -8,7 +8,7 @@ struct RootView: View {
             HomeView(
                 store: Store(
                     initialState: Home.State(),
-                    reducer: Home(apiService: APIService())
+                    reducer: Home()
                 )
             )
                 .tabItem {

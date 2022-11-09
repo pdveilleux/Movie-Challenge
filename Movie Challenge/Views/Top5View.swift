@@ -4,19 +4,32 @@ import ComposableArchitecture
 
 struct Top5View: View {
     let movies: [Movie]
-    let viewStore: ViewStore<Home.State, Home.Action>
+    let tapHandler: (Movie) -> ()
 
     var body: some View {
-        Section("Top 5") {
+        Section {
             ScrollView(.horizontal) {
                 LazyHStack {
                     ForEach(movies) { movie in
-                        MoviePosterView(movie: movie, viewStore: viewStore)
+                        MoviePosterView(movie: movie)
+                            .onTapGesture {
+                                tapHandler(movie)
+                            }
                     }
                 }
                 .padding()
             }
+            .background(Color.red)
             .scrollIndicators(.hidden)
+        } header: {
+            HStack {
+                Text("Top 5")
+                    .font(.title2)
+                    .bold()
+                    .padding()
+                Spacer()
+            }
+            
         }
     }
 }

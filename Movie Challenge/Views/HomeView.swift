@@ -3,8 +3,19 @@ import Combine
 import MovieAPI
 import ComposableArchitecture
 
+extension APIService: DependencyKey {
+    public static var liveValue: MovieAPI.APIService = APIService()
+}
+
+extension DependencyValues {
+    var apiService: APIService {
+        get { self[APIService.self] }
+        set { self[APIService.self] = newValue }
+    }
+}
+
 struct Home: ReducerProtocol {
-    let apiService: APIService
+    @Dependency(\.apiService) var apiService
     
     struct State: Equatable {
         var navPath: [Route] = []
@@ -66,14 +77,20 @@ struct HomeView: View {
             NavigationStack(path: viewStore.binding(get: \.navPath, send: { .updatePath($0) })) {
                 ScrollView {
                     VStack {
-                        Top5View(movies: viewStore.top5Movies, viewStore: viewStore)
+                        Top5View(movies: viewStore.top5Movies) {
+                            viewStore.send(.viewMovie($0))
+                        }
+                        .frame(height: 180)
                     }
                 }
                 .navigationTitle("Movies")
                 .navigationDestination(for: Home.Route.self) { route in
                     switch route {
                     case let .movie(movie):
-                        Text(movie.title)
+                        MovieDetailView(
+                            store: Store(
+                                initialState: MovieDetail.State(movie: movie),
+                                reducer: MovieDetail()))
                         
                     case let .genre(genre):
                         Text(genre)
@@ -89,6 +106,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(store: Store(initialState: Home.State(), reducer: Home(apiService: APIService())))
+        HomeView(store: Store(initialState: Home.State(), reducer: Home()))
     }
 }

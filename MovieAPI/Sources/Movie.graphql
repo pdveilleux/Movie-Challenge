@@ -8,5 +8,6 @@ query GetMovieQuery($id: Int!) {
     releaseDate
     runtime
     posterPath
+    overview
   }
 }

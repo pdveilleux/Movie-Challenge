@@ -13,6 +13,7 @@
 		BB0A11E7291C38540001A8F2 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A11E6291C38540001A8F2 /* BrowseView.swift */; };
 		BB0A11E9291C38720001A8F2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A11E8291C38720001A8F2 /* SearchView.swift */; };
 		BB0A11EB291C38890001A8F2 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A11EA291C38890001A8F2 /* RootView.swift */; };
+		BB0A11ED291C49760001A8F2 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0A11EC291C49760001A8F2 /* MovieDetailView.swift */; };
 		BB2EFA37291B09280052B0A9 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = BB2EFA36291B09280052B0A9 /* Apollo */; };
 		BB2EFA39291B09280052B0A9 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = BB2EFA38291B09280052B0A9 /* ApolloAPI */; };
 		BB682FE0291ADB9A008AA7C4 /* Movie_ChallengeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB682FDF291ADB9A008AA7C4 /* Movie_ChallengeApp.swift */; };
@@ -29,6 +30,7 @@
 		BB0A11E6291C38540001A8F2 /* BrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseView.swift; sourceTree = "<group>"; };
 		BB0A11E8291C38720001A8F2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		BB0A11EA291C38890001A8F2 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		BB0A11EC291C49760001A8F2 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		BB50DB62291B6359009DFA17 /* MovieAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MovieAPI; sourceTree = "<group>"; };
 		BB682FDC291ADB9A008AA7C4 /* Movie Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB682FDF291ADB9A008AA7C4 /* Movie_ChallengeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_ChallengeApp.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				BB682FE1291ADB9A008AA7C4 /* HomeView.swift */,
+				BB0A11EC291C49760001A8F2 /* MovieDetailView.swift */,
 				BB0A11EA291C38890001A8F2 /* RootView.swift */,
 				BB0A11E6291C38540001A8F2 /* BrowseView.swift */,
 				BB0A11E8291C38720001A8F2 /* SearchView.swift */,
@@ -210,6 +213,7 @@
 				BB0A11EB291C38890001A8F2 /* RootView.swift in Sources */,
 				BB0A11E2291C33C40001A8F2 /* Top5View.swift in Sources */,
 				BB8A5922291B7E27008BF76E /* Movie.swift in Sources */,
+				BB0A11ED291C49760001A8F2 /* MovieDetailView.swift in Sources */,
 				BB682FE2291ADB9A008AA7C4 /* HomeView.swift in Sources */,
 				BB0A11E9291C38720001A8F2 /* SearchView.swift in Sources */,
 				BB682FE0291ADB9A008AA7C4 /* Movie_ChallengeApp.swift in Sources */,
