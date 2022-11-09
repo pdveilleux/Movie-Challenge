@@ -1,17 +1,12 @@
-//
-//  Movie_ChallengeApp.swift
-//  Movie Challenge
-//
-//  Created by Patrick Veilleux on 11/8/22.
-//
-
 import SwiftUI
+import MovieAPI
+import ComposableArchitecture
 
 @main
 struct Movie_ChallengeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView(store: Store(initialState: Home.State(), reducer: Home(apiService: APIService())))
         }
     }
 }

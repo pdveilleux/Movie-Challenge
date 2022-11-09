@@ -7,22 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB0A11E0291C27550001A8F2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = BB0A11DF291C27550001A8F2 /* ComposableArchitecture */; };
 		BB2EFA37291B09280052B0A9 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = BB2EFA36291B09280052B0A9 /* Apollo */; };
 		BB2EFA39291B09280052B0A9 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = BB2EFA38291B09280052B0A9 /* ApolloAPI */; };
 		BB682FE0291ADB9A008AA7C4 /* Movie_ChallengeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB682FDF291ADB9A008AA7C4 /* Movie_ChallengeApp.swift */; };
-		BB682FE2291ADB9A008AA7C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB682FE1291ADB9A008AA7C4 /* ContentView.swift */; };
+		BB682FE2291ADB9A008AA7C4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB682FE1291ADB9A008AA7C4 /* HomeView.swift */; };
 		BB682FE4291ADB9E008AA7C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB682FE3291ADB9E008AA7C4 /* Assets.xcassets */; };
 		BB682FE7291ADB9E008AA7C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB682FE6291ADB9E008AA7C4 /* Preview Assets.xcassets */; };
 		BB8A591F291B642E008BF76E /* MovieAPI in Frameworks */ = {isa = PBXBuildFile; productRef = BB8A591E291B642E008BF76E /* MovieAPI */; };
+		BB8A5922291B7E27008BF76E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A5921291B7E27008BF76E /* Movie.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BB50DB62291B6359009DFA17 /* MovieAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MovieAPI; sourceTree = "<group>"; };
 		BB682FDC291ADB9A008AA7C4 /* Movie Challenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie Challenge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB682FDF291ADB9A008AA7C4 /* Movie_ChallengeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie_ChallengeApp.swift; sourceTree = "<group>"; };
-		BB682FE1291ADB9A008AA7C4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BB682FE1291ADB9A008AA7C4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BB682FE3291ADB9E008AA7C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB682FE6291ADB9E008AA7C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BB8A5921291B7E27008BF76E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +35,7 @@
 			files = (
 				BB8A591F291B642E008BF76E /* MovieAPI in Frameworks */,
 				BB2EFA39291B09280052B0A9 /* ApolloAPI in Frameworks */,
+				BB0A11E0291C27550001A8F2 /* ComposableArchitecture in Frameworks */,
 				BB2EFA37291B09280052B0A9 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,7 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				BB682FDF291ADB9A008AA7C4 /* Movie_ChallengeApp.swift */,
-				BB682FE1291ADB9A008AA7C4 /* ContentView.swift */,
+				BB682FE1291ADB9A008AA7C4 /* HomeView.swift */,
+				BB8A5920291B7E0B008BF76E /* Extensions */,
 				BB682FE3291ADB9E008AA7C4 /* Assets.xcassets */,
 				BB682FE5291ADB9E008AA7C4 /* Preview Content */,
 			);
@@ -89,6 +94,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BB8A5920291B7E0B008BF76E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BB8A5921291B7E27008BF76E /* Movie.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,6 +124,7 @@
 				BB2EFA36291B09280052B0A9 /* Apollo */,
 				BB2EFA38291B09280052B0A9 /* ApolloAPI */,
 				BB8A591E291B642E008BF76E /* MovieAPI */,
+				BB0A11DF291C27550001A8F2 /* ComposableArchitecture */,
 			);
 			productName = "Movie Challenge";
 			productReference = BB682FDC291ADB9A008AA7C4 /* Movie Challenge.app */;
@@ -142,6 +156,7 @@
 			mainGroup = BB682FD3291ADB9A008AA7C4;
 			packageReferences = (
 				BB2EFA35291B09280052B0A9 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				BB0A11DE291C27550001A8F2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = BB682FDD291ADB9A008AA7C4 /* Products */;
 			projectDirPath = "";
@@ -169,7 +184,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB682FE2291ADB9A008AA7C4 /* ContentView.swift in Sources */,
+				BB8A5922291B7E27008BF76E /* Movie.swift in Sources */,
+				BB682FE2291ADB9A008AA7C4 /* HomeView.swift in Sources */,
 				BB682FE0291ADB9A008AA7C4 /* Movie_ChallengeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,6 +389,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BB0A11DE291C27550001A8F2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = exactVersion;
+				version = 0.45.0;
+			};
+		};
 		BB2EFA35291B09280052B0A9 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios";
@@ -384,6 +408,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BB0A11DF291C27550001A8F2 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB0A11DE291C27550001A8F2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
 		BB2EFA36291B09280052B0A9 /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BB2EFA35291B09280052B0A9 /* XCRemoteSwiftPackageReference "apollo-ios" */;

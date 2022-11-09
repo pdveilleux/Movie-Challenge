@@ -1,0 +1,12 @@
+query GetMovieQuery($id: Int!) {
+  movie(id: $id) {
+    id
+    title
+    genres
+    voteAverage
+    voteCount
+    releaseDate
+    runtime
+    posterPath
+  }
+}
