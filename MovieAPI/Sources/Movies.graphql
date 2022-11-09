@@ -3,3 +3,16 @@ query GetMoviesQuery {
     title
   }
 }
+
+query GetTop5MoviesQuery {
+  movies(orderBy:"voteAverage", sort:DESC, limit:5) {
+    id
+    title
+    genres
+    voteAverage
+    voteCount
+    releaseDate
+    runtime
+    posterPath
+  }
+}
