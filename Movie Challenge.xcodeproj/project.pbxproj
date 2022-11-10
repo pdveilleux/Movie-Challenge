@@ -25,6 +25,7 @@
 		BB962E78291C77230007A8EF /* GenresGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB962E77291C77230007A8EF /* GenresGridView.swift */; };
 		BB962E7A291C7C9A0007A8EF /* MoviesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB962E79291C7C9A0007A8EF /* MoviesListView.swift */; };
 		BB962E7C291C84C90007A8EF /* RatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB962E7B291C84C90007A8EF /* RatingLabel.swift */; };
+		BBD31118291CE4A800250672 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = BBD31117291CE4A800250672 /* CachedAsyncImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB8A591F291B642E008BF76E /* MovieAPI in Frameworks */,
+				BBD31118291CE4A800250672 /* CachedAsyncImage in Frameworks */,
 				BB2EFA39291B09280052B0A9 /* ApolloAPI in Frameworks */,
 				BB0A11E0291C27550001A8F2 /* ComposableArchitecture in Frameworks */,
 				BB2EFA37291B09280052B0A9 /* Apollo in Frameworks */,
@@ -160,6 +162,7 @@
 				BB2EFA38291B09280052B0A9 /* ApolloAPI */,
 				BB8A591E291B642E008BF76E /* MovieAPI */,
 				BB0A11DF291C27550001A8F2 /* ComposableArchitecture */,
+				BBD31117291CE4A800250672 /* CachedAsyncImage */,
 			);
 			productName = "Movie Challenge";
 			productReference = BB682FDC291ADB9A008AA7C4 /* Movie Challenge.app */;
@@ -192,6 +195,7 @@
 			packageReferences = (
 				BB2EFA35291B09280052B0A9 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				BB0A11DE291C27550001A8F2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				BBD31116291CE4A800250672 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = BB682FDD291ADB9A008AA7C4 /* Products */;
 			projectDirPath = "";
@@ -449,6 +453,14 @@
 				version = 1.0.3;
 			};
 		};
+		BBD31116291CE4A800250672 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:lorenzofiamingo/swiftui-cached-async-image.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -470,6 +482,11 @@
 		BB8A591E291B642E008BF76E /* MovieAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MovieAPI;
+		};
+		BBD31117291CE4A800250672 /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBD31116291CE4A800250672 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

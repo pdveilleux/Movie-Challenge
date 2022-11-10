@@ -1,6 +1,7 @@
 import SwiftUI
 import ComposableArchitecture
 import MovieAPI
+import CachedAsyncImage
 
 struct MovieDetail: ReducerProtocol {
     @Dependency(\.apiService) var apiService
@@ -121,7 +122,7 @@ struct MovieDetailView: View {
                         LazyVStack(alignment: .leading) {
                             ForEach(viewStore.movie.cast, id: \.order) { cast in
                                 HStack {
-                                    AsyncImage(url: URL(string: cast.profilePath ?? "")) { image in
+                                    CachedAsyncImage(url: URL(string: cast.profilePath ?? "")) { image in
                                         image
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)

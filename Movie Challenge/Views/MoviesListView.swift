@@ -125,31 +125,35 @@ struct MoviesListView: View {
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             List(viewStore.movies) { movie in
-                HStack(alignment: .top) {
-                    MoviePosterView(movie: movie)
-                        .frame(width: 120, height: 180)
-                    
-                    VStack(spacing: 4) {
-                        Group {
-                            Text(movie.title)
-                                .font(.title3)
-                                .bold()
-                            
-                            if let date = movie.releaseDate {
-                                Text(date.formatted(date: .long, time: .omitted))
-                                    .font(.callout)
+                NavigationLink(
+                    destination: MovieDetailView(store: Store(initialState: .init(movie: movie), reducer: MovieDetail()))
+                ) {
+                    HStack(alignment: .top) {
+                        MoviePosterView(movie: movie)
+                            .frame(width: 120, height: 180)
+                        
+                        VStack(spacing: 4) {
+                            Group {
+                                Text(movie.title)
+                                    .font(.title3)
+                                    .bold()
+                                
+                                if let date = movie.releaseDate {
+                                    Text(date.formatted(date: .long, time: .omitted))
+                                        .font(.callout)
+                                }
+                                
+                                if let voteAverage = movie.voteAverage {
+                                    RatingLabel(rating: voteAverage)
+                                }
+                                
+                                if let popularity = Popularity(popularity: movie.popularity) {
+                                    Text(popularity.rawValue)
+                                        .font(.callout)
+                                }
                             }
-                            
-                            if let voteAverage = movie.voteAverage {
-                                RatingLabel(rating: voteAverage)
-                            }
-                            
-                            if let popularity = Popularity(popularity: movie.popularity) {
-                                Text(popularity.rawValue)
-                                    .font(.callout)
-                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 }
             }

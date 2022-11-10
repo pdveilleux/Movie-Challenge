@@ -1,12 +1,13 @@
 import SwiftUI
 import MovieAPI
 import ComposableArchitecture
+import CachedAsyncImage
 
 struct MoviePosterView: View {
     let movie: Movie
     
     var body: some View {
-        AsyncImage(url: URL(string: movie.posterPath ?? "")) { image in
+        CachedAsyncImage(url: URL(string: movie.posterPath ?? "")) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fit)

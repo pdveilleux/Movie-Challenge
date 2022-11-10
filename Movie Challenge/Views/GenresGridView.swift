@@ -1,8 +1,8 @@
 import SwiftUI
+import ComposableArchitecture
 
 struct GenresGridView: View {
     let genres: [String]
-    let tapHandler: (String) -> ()
     
     let columns: [GridItem] = [
         .init(.flexible()), .init(.flexible()), .init(.flexible())
@@ -15,16 +15,24 @@ struct GenresGridView: View {
         Section {
             LazyVGrid(columns: columns) {
                 ForEach(Array(genres.enumerated()), id: \.element) { index, genre in
-                    Text(genre)
-                        .font(.callout)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                        .frame(width: 112, height: 64, alignment: .center)
-                        .background(colors[index % colors.count])
-                        .cornerRadius(16)
-                        .onTapGesture {
-                            tapHandler(genre)
-                        }
+                    NavigationLink {
+                        MoviesListView(
+                            store: Store(
+                                initialState: .init(
+                                    filter: .init(genre: genre)),
+                                reducer: MoviesList()
+                            )
+                        )
+                    } label: {
+                        Text(genre)
+                            .font(.callout)
+                            .bold()
+                            .multilineTextAlignment(.center)
+                            .frame(width: 112, height: 64, alignment: .center)
+                            .background(colors[index % colors.count])
+                            .cornerRadius(16)
+                    }
+                    .tint(.white)
                 }
             }
             .padding(.horizontal)
@@ -42,6 +50,6 @@ struct GenresGridView: View {
 
 struct GenresGridView_Previews: PreviewProvider {
     static var previews: some View {
-        GenresGridView(genres: ["Action", "Adventure", "Animation"]) { _ in }
+        GenresGridView(genres: ["Action", "Adventure", "Animation"])
     }
 }

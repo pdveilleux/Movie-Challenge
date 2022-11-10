@@ -4,26 +4,27 @@ import ComposableArchitecture
 
 struct Top5View: View {
     let movies: [Movie]
-    let tapHandler: (Movie) -> ()
 
     var body: some View {
         Section {
             ScrollView(.horizontal) {
                 LazyHStack {
                     ForEach(movies) { movie in
-                        VStack {
-                            MoviePosterView(movie: movie)
-                                .frame(width: 120, height: 180)
-                                .onTapGesture {
-                                    tapHandler(movie)
+                        NavigationLink(
+                            destination: MovieDetailView(store: Store(initialState: .init(movie: movie), reducer: MovieDetail()))
+                        ) {
+                            VStack {
+                                MoviePosterView(movie: movie)
+                                    .frame(width: 120, height: 180)
+                                
+                                if let voteAverage = movie.voteAverage {
+                                    Label("\(voteAverage.formatted(.number.precision(.significantDigits(2))))", systemImage: "star.fill")
+                                        .labelStyle(.titleAndIcon)
+                                        .font(.callout)
                                 }
-                            
-                            if let voteAverage = movie.voteAverage {
-                                Label("\(voteAverage.formatted(.number.precision(.significantDigits(2))))", systemImage: "star.fill")
-                                    .labelStyle(.titleAndIcon)
-                                    .font(.callout)
                             }
                         }
+                        .tint(.white)
                     }
                 }
                 .padding(.horizontal)
@@ -37,9 +38,7 @@ struct Top5View: View {
                     .padding(.horizontal)
                 Spacer()
             }
-//            .background(Color.pink)
         }
-//        .background(Color.yellow)
     }
 }
 
