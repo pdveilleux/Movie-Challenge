@@ -62,35 +62,8 @@ struct MovieDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     // header
-                    HStack(alignment: .bottom, spacing: 12) {
-                        MoviePosterView(movie: viewStore.movie)
-                            .frame(width: 160, height: 240)
-                            .onTapGesture {
-                                viewStore.send(.tapPoster)
-                            }
-                        
-                        VStack(spacing: 4) {
-                            Group {
-                                Text(viewStore.movie.title)
-                                    .font(.title)
-                                    .bold()
-                                
-                                if let date = viewStore.movie.releaseDate {
-                                    Text(date.formatted(date: .long, time: .omitted))
-                                        .font(.callout)
-                                }
-                                
-                                if let voteAverage = viewStore.movie.voteAverage {
-                                    RatingLabel(rating: voteAverage)
-                                }
-                                
-                                if let popularity = Popularity(popularity: viewStore.movie.popularity) {
-                                    Text(popularity.rawValue)
-                                        .font(.callout)
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
+                    HeaderView(movie: viewStore.movie) {
+                        viewStore.send(.tapPoster)
                     }
                     
                     VStack(alignment: .leading, spacing: 8) {
@@ -114,32 +87,7 @@ struct MovieDetailView: View {
                     }
                     .frame(idealWidth: .infinity)
                     
-                    VStack(alignment: .leading) {
-                        Text("Cast")
-                            .font(.title2)
-                            .bold()
-                        
-                        LazyVStack(alignment: .leading) {
-                            ForEach(viewStore.movie.cast, id: \.order) { cast in
-                                HStack {
-                                    CachedAsyncImage(url: URL(string: cast.profilePath ?? "")) { image in
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                    } placeholder: {
-                                        Image(systemName: "person.fill")
-                                    }
-                                    .frame(width: 80, height: 120)
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text(cast.name)
-                                            .bold()
-                                        Text("Role: \(cast.character)")
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    CastView(cast: viewStore.movie.cast)
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Genres")
@@ -167,6 +115,79 @@ struct MovieDetailView: View {
                 send: { .updatePoster($0) })) {
                     MoviePosterView(movie: viewStore.movie)
                 }
+        }
+    }
+}
+
+extension MovieDetailView {
+    struct HeaderView: View {
+        let movie: Movie
+        let posterTapHandler: () -> ()
+        
+        var body: some View {
+            HStack(alignment: .bottom, spacing: 12) {
+                MoviePosterView(movie: movie)
+                    .frame(width: 160, height: 240)
+                    .onTapGesture {
+                        posterTapHandler()
+                    }
+                
+                VStack(spacing: 4) {
+                    Group {
+                        Text(movie.title)
+                            .font(.title)
+                            .bold()
+                        
+                        if let date = movie.releaseDate {
+                            Text(date.formatted(date: .long, time: .omitted))
+                                .font(.callout)
+                        }
+                        
+                        if let voteAverage = movie.voteAverage {
+                            RatingLabel(rating: voteAverage)
+                        }
+                        
+                        if let popularity = Popularity(popularity: movie.popularity) {
+                            Text(popularity.rawValue)
+                                .font(.callout)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        }
+    }
+    
+    struct CastView: View {
+        let cast: [Cast]
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text("Cast")
+                    .font(.title2)
+                    .bold()
+                
+                LazyVStack(alignment: .leading) {
+                    ForEach(cast, id: \.order) { cast in
+                        HStack {
+                            CachedAsyncImage(url: URL(string: cast.profilePath ?? "")) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            } placeholder: {
+                                Image(systemName: "person.fill")
+                            }
+                            .frame(width: 80, height: 120)
+                            
+                            VStack(alignment: .leading) {
+                                Text(cast.name)
+                                    .bold()
+                                Text("Role: \(cast.character)")
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -13,21 +13,10 @@ extension DependencyValues {
     }
 }
 
-enum Route: Hashable {
-    case movie(Movie)
-    case genre(String)
-    case browse
-}
-
 struct Home: ReducerProtocol {
     @Dependency(\.apiService) var apiService
     
     struct State: Equatable {
-        var navPath: [Route] = [] {
-            didSet {
-                print("navPath changed")
-            }
-        }
         var error: Error?
         var top5Movies: [Movie] = []
         var genres: [String] = []
@@ -43,10 +32,6 @@ struct Home: ReducerProtocol {
         case top5Response(TaskResult<[Movie]>)
         case loadGenres
         case genresResponse(TaskResult<[String]>)
-        case viewMovie(Movie)
-        case viewGenre(String)
-        case browse
-        case updatePath([Route])
     }
 
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -84,23 +69,6 @@ struct Home: ReducerProtocol {
         case .genresResponse(.failure):
             state.error = .unableToFetchGenres
             return .none
-        
-        case let .viewMovie(movie):
-            state.navPath.append(.movie(movie))
-            return .none
-            
-        case let .viewGenre(genre):
-            state.navPath.append(.genre(genre))
-            return .none
-            
-        case .browse:
-            state.navPath.append(.browse)
-            return .none
-
-        case let .updatePath(route):
-            print("Update path \(route)")
-            state.navPath = route
-            return .none
         }
     }
 }
@@ -111,46 +79,12 @@ struct HomeView: View {
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            NavigationStack(path: viewStore.binding(get: \.navPath, send: { .updatePath($0) })) {
+            NavigationStack() {
                 ScrollView {
                     VStack {
                         Top5View(movies: viewStore.top5Movies)
                         
-                        Section {
-                            HStack {
-                                Button {
-                                    // Handled by NavigationLink
-                                } label: {
-                                    NavigationLink {
-                                        MoviesListView(
-                                            store: Store(
-                                                initialState: .init(),
-                                                reducer: MoviesList()
-                                            )
-                                        )
-                                    } label: {
-                                        Label("Browse", systemImage: "magnifyingglass")
-                                            .labelStyle(.titleOnly)
-                                    }
-                                }
-                                .buttonStyle(.bordered)
-                                .controlSize(.large)
-                                .tint(.green)
-                                .buttonBorderShape(.capsule)
-                                .padding(.horizontal)
-                                
-                                Spacer()
-                            }
-                            
-                        } header: {
-                            HStack {
-                                Text("Catalog")
-                                    .font(.title2)
-                                    .bold()
-                                    .padding()
-                                Spacer()
-                            }
-                        }
+                        CatalogSectionView()
                         
                         GenresGridView(genres: viewStore.genres)
                     }
@@ -160,6 +94,46 @@ struct HomeView: View {
             .onAppear {
                 viewStore.send(.loadTop5)
                 viewStore.send(.loadGenres)
+            }
+        }
+    }
+}
+
+struct CatalogSectionView: View {
+    var body: some View {
+        Section {
+            HStack {
+                Button {
+                    // Handled by NavigationLink
+                } label: {
+                    NavigationLink {
+                        MoviesListView(
+                            store: Store(
+                                initialState: .init(),
+                                reducer: MoviesList()
+                            )
+                        )
+                    } label: {
+                        Label("Browse", systemImage: "magnifyingglass")
+                            .labelStyle(.titleOnly)
+                    }
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+                .tint(.green)
+                .buttonBorderShape(.capsule)
+                .padding(.horizontal)
+                
+                Spacer()
+            }
+            
+        } header: {
+            HStack {
+                Text("Catalog")
+                    .font(.title2)
+                    .bold()
+                    .padding()
+                Spacer()
             }
         }
     }

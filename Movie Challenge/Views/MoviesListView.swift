@@ -128,33 +128,7 @@ struct MoviesListView: View {
                 NavigationLink(
                     destination: MovieDetailView(store: Store(initialState: .init(movie: movie), reducer: MovieDetail()))
                 ) {
-                    HStack(alignment: .top) {
-                        MoviePosterView(movie: movie)
-                            .frame(width: 120, height: 180)
-                        
-                        VStack(spacing: 4) {
-                            Group {
-                                Text(movie.title)
-                                    .font(.title3)
-                                    .bold()
-                                
-                                if let date = movie.releaseDate {
-                                    Text(date.formatted(date: .long, time: .omitted))
-                                        .font(.callout)
-                                }
-                                
-                                if let voteAverage = movie.voteAverage {
-                                    RatingLabel(rating: voteAverage)
-                                }
-                                
-                                if let popularity = Popularity(popularity: movie.popularity) {
-                                    Text(popularity.rawValue)
-                                        .font(.callout)
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    }
+                    MovieCellView(movie: movie)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -181,6 +155,42 @@ struct MoviesListView: View {
                 }
             } label: {
                 Label("Sort", systemImage: "arrow.up.arrow.down")
+            }
+        }
+    }
+}
+
+extension MoviesListView {
+    struct MovieCellView: View {
+        let movie: Movie
+
+        var body: some View {
+            HStack(alignment: .top) {
+                MoviePosterView(movie: movie)
+                    .frame(width: 120, height: 180)
+                
+                VStack(spacing: 4) {
+                    Group {
+                        Text(movie.title)
+                            .font(.title3)
+                            .bold()
+                        
+                        if let date = movie.releaseDate {
+                            Text(date.formatted(date: .long, time: .omitted))
+                                .font(.callout)
+                        }
+                        
+                        if let voteAverage = movie.voteAverage {
+                            RatingLabel(rating: voteAverage)
+                        }
+                        
+                        if let popularity = Popularity(popularity: movie.popularity) {
+                            Text(popularity.rawValue)
+                                .font(.callout)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
         }
     }
