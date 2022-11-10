@@ -83,7 +83,6 @@ struct MoviesList: ReducerProtocol {
         case let .moviesResponse(.success(movies)):
             state.movies = movies
             state.updateTrigger.toggle()
-            print("Loaded movies for genre \(movies.count)")
             return .none
             
         case .moviesResponse(.failure):
@@ -130,7 +129,7 @@ struct MoviesListView: View {
                     MoviePosterView(movie: movie)
                         .frame(width: 120, height: 180)
                     
-                    VStack {
+                    VStack(spacing: 4) {
                         Group {
                             Text(movie.title)
                                 .font(.title3)
@@ -154,6 +153,7 @@ struct MoviesListView: View {
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(viewStore.title)
             .toolbar {
                 sortButton(viewStore: viewStore)

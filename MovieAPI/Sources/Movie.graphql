@@ -10,5 +10,15 @@ query GetMovieQuery($id: Int!) {
     posterPath
     overview
     popularity
+    director {
+      id
+      name
+    }
+    cast {
+      profilePath
+      name
+      character
+      order
+    }
   }
 }

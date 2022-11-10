@@ -24,6 +24,8 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     switch typename {
     case "Query": return GeneratedAPI.Objects.Query
     case "Movie": return GeneratedAPI.Objects.Movie
+    case "Director": return GeneratedAPI.Objects.Director
+    case "Cast": return GeneratedAPI.Objects.Cast
     default: return nil
     }
   }

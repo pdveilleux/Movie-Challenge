@@ -7,3 +7,10 @@ public struct Director {
 
 extension Director: Equatable {}
 extension Director: Hashable {}
+
+extension Director {
+    init(director: GetMovieQuery.Data.Movie.Director) {
+        id = director.id
+        name = director.name
+    }
+}

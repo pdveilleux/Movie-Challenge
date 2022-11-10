@@ -22,6 +22,18 @@ public class GetMovieQuery: GraphQLQuery {
           posterPath
           overview
           popularity
+          director {
+            __typename
+            id
+            name
+          }
+          cast {
+            __typename
+            profilePath
+            name
+            character
+            order
+          }
         }
       }
       """
@@ -65,6 +77,8 @@ public class GetMovieQuery: GraphQLQuery {
         .field("posterPath", String?.self),
         .field("overview", String.self),
         .field("popularity", Double.self),
+        .field("director", Director.self),
+        .field("cast", [Cast].self),
       ] }
 
       public var id: Int { __data["id"] }
@@ -77,6 +91,46 @@ public class GetMovieQuery: GraphQLQuery {
       public var posterPath: String? { __data["posterPath"] }
       public var overview: String { __data["overview"] }
       public var popularity: Double { __data["popularity"] }
+      public var director: Director { __data["director"] }
+      public var cast: [Cast] { __data["cast"] }
+
+      /// Movie.Director
+      ///
+      /// Parent Type: `Director`
+      public struct Director: GeneratedAPI.SelectionSet {
+        public let __data: DataDict
+        public init(data: DataDict) { __data = data }
+
+        public static var __parentType: ParentType { GeneratedAPI.Objects.Director }
+        public static var __selections: [Selection] { [
+          .field("id", Int.self),
+          .field("name", String.self),
+        ] }
+
+        public var id: Int { __data["id"] }
+        public var name: String { __data["name"] }
+      }
+
+      /// Movie.Cast
+      ///
+      /// Parent Type: `Cast`
+      public struct Cast: GeneratedAPI.SelectionSet {
+        public let __data: DataDict
+        public init(data: DataDict) { __data = data }
+
+        public static var __parentType: ParentType { GeneratedAPI.Objects.Cast }
+        public static var __selections: [Selection] { [
+          .field("profilePath", String?.self),
+          .field("name", String.self),
+          .field("character", String.self),
+          .field("order", Int.self),
+        ] }
+
+        public var profilePath: String? { __data["profilePath"] }
+        public var name: String { __data["name"] }
+        public var character: String { __data["character"] }
+        public var order: Int { __data["order"] }
+      }
     }
   }
 }

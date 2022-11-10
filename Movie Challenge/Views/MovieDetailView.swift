@@ -33,12 +33,10 @@ struct MovieDetail: ReducerProtocol {
         
         case let .movieResponse(.success(movie)):
             state.movie = movie
-            print("movie: \(movie.overview)")
             return .none
             
         case .movieResponse(.failure):
             state.error = .unableToFetchMovie
-            print("error")
             return .none
         }
     }
@@ -50,16 +48,16 @@ struct MovieDetailView: View {
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             ScrollView {
-                VStack {
+                VStack(alignment: .leading, spacing: 20) {
                     // header
-                    HStack(alignment: .bottom) {
+                    HStack(alignment: .bottom, spacing: 12) {
                         MoviePosterView(movie: viewStore.movie)
                             .frame(width: 160, height: 240)
                             .onTapGesture {
                                 // show poster sheet
                             }
                         
-                        VStack {
+                        VStack(spacing: 4) {
                             Group {
                                 Text(viewStore.movie.title)
                                     .font(.title)
@@ -73,13 +71,77 @@ struct MovieDetailView: View {
                                 if let voteAverage = viewStore.movie.voteAverage {
                                     RatingLabel(rating: voteAverage)
                                 }
+                                
+                                if let popularity = Popularity(popularity: viewStore.movie.popularity) {
+                                    Text(popularity.rawValue)
+                                        .font(.callout)
+                                }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .padding(.horizontal)
                     }
                     
-                    Text(viewStore.movie.overview)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Overview")
+                            .font(.title2)
+                            .bold()
+                        
+                        Text(viewStore.movie.overview)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Director")
+                            .font(.title2)
+                            .bold()
+                        
+                        if let director = viewStore.movie.director {
+                            Text(director.name)
+                                .bold()
+                                .padding(.horizontal)
+                        }
+                    }
+                    .frame(idealWidth: .infinity)
+                    
+                    VStack(alignment: .leading) {
+                        Text("Cast")
+                            .font(.title2)
+                            .bold()
+                        
+                        LazyVStack(alignment: .leading) {
+                            ForEach(viewStore.movie.cast, id: \.order) { cast in
+                                HStack {
+                                    AsyncImage(url: URL(string: cast.profilePath ?? "")) { image in
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    } placeholder: {
+                                        Image(systemName: "person.fill")
+                                    }
+                                    .frame(width: 80, height: 120)
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text(cast.name)
+                                            .bold()
+                                        Text("Role: \(cast.character)")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Genres")
+                            .font(.title2)
+                            .bold()
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(viewStore.movie.genres, id: \.self) { genre in
+                                Text(genre)
+                                    .padding(.horizontal)
+                            }
+                        }
+                    }
+                    .frame(idealWidth: .infinity)
                 }
                 .padding()
             }

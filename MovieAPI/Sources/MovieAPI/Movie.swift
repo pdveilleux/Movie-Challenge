@@ -19,8 +19,9 @@ public struct Movie {
     public let voteCount: Int?
     public let overview: String
     public let popularity: Double?
+    public let cast: [Cast]
     
-    public init(id: Int, title: String, posterPath: String? = nil, genres: [String] = [], director: Director? = nil, releaseDate: Date? = nil, voteAverage: Double? = nil, voteCount: Int? = nil, overview: String = "", popularity: Double? = nil) {
+    public init(id: Int, title: String, posterPath: String? = nil, genres: [String] = [], director: Director? = nil, releaseDate: Date? = nil, voteAverage: Double? = nil, voteCount: Int? = nil, overview: String = "", popularity: Double? = nil, cast: [Cast] = []) {
         self.id = id
         self.title = title
         self.posterPath = posterPath
@@ -31,6 +32,7 @@ public struct Movie {
         self.voteCount = voteCount
         self.overview = overview
         self.popularity = popularity
+        self.cast = cast
     }
 }
 
@@ -47,6 +49,7 @@ extension Movie {
         voteCount = movie.voteCount
         overview = movie.overview
         popularity = nil
+        cast = []
     }
 }
 
@@ -56,12 +59,13 @@ extension Movie {
         title = movie.title
         posterPath = movie.posterPath
         genres = movie.genres
-        director = nil
+        director = Director(director: movie.director)
         releaseDate = MovieDateFormatter.formatDate(from: movie.releaseDate)
         voteAverage = movie.voteAverage
         voteCount = movie.voteCount
         overview = movie.overview
         popularity = movie.popularity
+        cast = movie.cast.map { Cast(cast: $0) }
     }
 }
 
@@ -78,6 +82,7 @@ extension Movie {
         voteCount = movie.voteCount
         overview = movie.overview
         popularity = movie.popularity
+        cast = []
     }
 }
 

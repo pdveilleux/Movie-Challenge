@@ -87,12 +87,10 @@ struct Home: ReducerProtocol {
             return .none
         
         case let .viewMovie(movie):
-            print("View movie")
             state.navPath.append(.movie(movie))
             return .none
             
         case let .viewGenre(genre):
-            print("View genre")
             state.navPath.append(.genre(genre))
             return .none
             
