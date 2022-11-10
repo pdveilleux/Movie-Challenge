@@ -22,9 +22,13 @@ public class APIService {
         }
     }
     
-    public func getMoviesForGenre(genre: String) async throws -> [Movie] {
+    public func getMoviesForGenre(genre: String? = nil) async throws -> [Movie] {
         try await withCheckedThrowingContinuation { continuation in
-            Network.shared.apollo.fetch(query: GetMoviesForGenreQuery(genre: genre)) { result in
+            Network.shared.apollo.fetch(
+                query: GetMoviesForGenreQuery(
+                    genre: genre.toGraphQLNullable()
+                )
+            ) { result in
                 do {
                     let movies = try result.get().data?.movies?.compactMap { Movie(movie: $0) }
                     continuation.resume(returning: movies ?? [])
@@ -67,5 +71,15 @@ public class APIService {
 extension APIService {
     enum APIError: Error {
         case noData
+    }
+}
+
+extension Optional {
+    func toGraphQLNullable() -> GraphQLNullable<Wrapped> {
+        if let value = self {
+            return .some(value)
+        } else {
+            return .null
+        }
     }
 }

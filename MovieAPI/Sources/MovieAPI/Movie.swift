@@ -18,8 +18,9 @@ public struct Movie {
     public let voteAverage: Double?
     public let voteCount: Int?
     public let overview: String
+    public let popularity: Double?
     
-    public init(id: Int, title: String, posterPath: String? = nil, genres: [String] = [], director: Director? = nil, releaseDate: Date? = nil, voteAverage: Double? = nil, voteCount: Int? = nil, overview: String = "") {
+    public init(id: Int, title: String, posterPath: String? = nil, genres: [String] = [], director: Director? = nil, releaseDate: Date? = nil, voteAverage: Double? = nil, voteCount: Int? = nil, overview: String = "", popularity: Double? = nil) {
         self.id = id
         self.title = title
         self.posterPath = posterPath
@@ -29,6 +30,7 @@ public struct Movie {
         self.voteAverage = voteAverage
         self.voteCount = voteCount
         self.overview = overview
+        self.popularity = popularity
     }
 }
 
@@ -44,6 +46,7 @@ extension Movie {
         voteAverage = movie.voteAverage
         voteCount = movie.voteCount
         overview = movie.overview
+        popularity = nil
     }
 }
 
@@ -58,6 +61,7 @@ extension Movie {
         voteAverage = movie.voteAverage
         voteCount = movie.voteCount
         overview = movie.overview
+        popularity = movie.popularity
     }
 }
 
@@ -73,6 +77,7 @@ extension Movie {
         voteAverage = movie.voteAverage
         voteCount = movie.voteCount
         overview = movie.overview
+        popularity = movie.popularity
     }
 }
 

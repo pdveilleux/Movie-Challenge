@@ -21,6 +21,7 @@ public class GetMovieQuery: GraphQLQuery {
           runtime
           posterPath
           overview
+          popularity
         }
       }
       """
@@ -63,6 +64,7 @@ public class GetMovieQuery: GraphQLQuery {
         .field("runtime", Int.self),
         .field("posterPath", String?.self),
         .field("overview", String.self),
+        .field("popularity", Double.self),
       ] }
 
       public var id: Int { __data["id"] }
@@ -74,6 +76,7 @@ public class GetMovieQuery: GraphQLQuery {
       public var runtime: Int { __data["runtime"] }
       public var posterPath: String? { __data["posterPath"] }
       public var overview: String { __data["overview"] }
+      public var popularity: Double { __data["popularity"] }
     }
   }
 }

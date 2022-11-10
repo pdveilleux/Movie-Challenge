@@ -18,7 +18,7 @@ query GetTop5MoviesQuery {
   }
 }
 
-query GetMoviesForGenreQuery($genre: String!) {
+query GetMoviesForGenreQuery($genre: String) {
   movies(orderBy:"popularity", sort:DESC, genre:$genre) {
     id
     title

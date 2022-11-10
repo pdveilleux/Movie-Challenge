@@ -17,15 +17,21 @@ struct Home: ReducerProtocol {
     @Dependency(\.apiService) var apiService
     
     struct State: Equatable {
-        var navPath: [Route] = []
+        var navPath: [Route] = [] {
+            didSet {
+                print("navPath changed")
+            }
+        }
         var error: Error?
         var top5Movies: [Movie] = []
         var genres: [String] = []
     }
     
     enum Route: Hashable {
+        case unhandled
         case movie(Movie)
         case genre(String)
+        case browse
     }
     
     enum Error {
@@ -40,6 +46,7 @@ struct Home: ReducerProtocol {
         case genresResponse(TaskResult<[String]>)
         case viewMovie(Movie)
         case viewGenre(String)
+        case browse
         case updatePath([Route])
     }
 
@@ -80,11 +87,17 @@ struct Home: ReducerProtocol {
             return .none
         
         case let .viewMovie(movie):
+            print("View movie")
             state.navPath.append(.movie(movie))
             return .none
             
         case let .viewGenre(genre):
+            print("View genre")
             state.navPath.append(.genre(genre))
+            return .none
+            
+        case .browse:
+            state.navPath.append(.browse)
             return .none
 
         case let .updatePath(route):
@@ -96,6 +109,7 @@ struct Home: ReducerProtocol {
 
 struct HomeView: View {
     let store: StoreOf<Home>
+    var hasIgnoredFirstNavDest = false
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
@@ -106,6 +120,32 @@ struct HomeView: View {
                             viewStore.send(.viewMovie($0))
                         }
                         
+                        Section {
+                            HStack {
+                                Button {
+                                    viewStore.send(.browse)
+                                } label: {
+                                    Label("Browse", systemImage: "magnifyingglass")
+                                        .labelStyle(.titleOnly)
+                                }
+                                .buttonStyle(.bordered)
+                                .controlSize(.large)
+                                .tint(.green)
+                                .buttonBorderShape(.capsule)
+                                .padding(.horizontal)
+                                
+                                Spacer()
+                            }
+                        } header: {
+                            HStack {
+                                Text("Catalog")
+                                    .font(.title2)
+                                    .bold()
+                                    .padding()
+                                Spacer()
+                            }
+                        }
+                        
                         GenresGridView(genres: viewStore.genres) {
                             viewStore.send(.viewGenre($0))
                         }
@@ -113,6 +153,7 @@ struct HomeView: View {
                 }
                 .navigationTitle("Movies")
                 .navigationDestination(for: Home.Route.self) { route in
+                    let _ = print("Nav dest: \(route)")
                     switch route {
                     case let .movie(movie):
                         MovieDetailView(
@@ -123,12 +164,24 @@ struct HomeView: View {
                     case let .genre(genre):
                         MoviesListView(
                             store: Store(
-                                initialState: MoviesList.State(genre: genre),
+                                initialState: MoviesList.State(
+                                    filter: .init(genre: genre)),
                                 reducer: MoviesList()))
+                        
+                    case .browse:
+                        MoviesListView(
+                            store: Store(
+                                initialState: MoviesList.State(),
+                                reducer: MoviesList()))
+                        
+                    case .unhandled:
+                        EmptyView()
                     }
                 }
             }
             .onAppear {
+//                viewStore.send(.updatePath([.unhandled]))
+//                viewStore.send(.updatePath([]))
                 viewStore.send(.loadTop5)
                 viewStore.send(.loadGenres)
             }

@@ -9,7 +9,7 @@ public class GetMoviesForGenreQuery: GraphQLQuery {
   public static let document: DocumentType = .notPersisted(
     definition: .init(
       """
-      query GetMoviesForGenreQuery($genre: String!) {
+      query GetMoviesForGenreQuery($genre: String) {
         movies(orderBy: "popularity", sort: DESC, genre: $genre) {
           __typename
           id
@@ -27,9 +27,9 @@ public class GetMoviesForGenreQuery: GraphQLQuery {
       """
     ))
 
-  public var genre: String
+  public var genre: GraphQLNullable<String>
 
-  public init(genre: String) {
+  public init(genre: GraphQLNullable<String>) {
     self.genre = genre
   }
 
