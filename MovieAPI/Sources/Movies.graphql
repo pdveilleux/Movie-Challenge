@@ -14,5 +14,21 @@ query GetTop5MoviesQuery {
     releaseDate
     runtime
     posterPath
+    overview
+  }
+}
+
+query GetMoviesForGenreQuery($genre: String!) {
+  movies(orderBy:"popularity", sort:DESC, genre:$genre) {
+    id
+    title
+    genres
+    voteAverage
+    voteCount
+    releaseDate
+    runtime
+    posterPath
+    overview
+    popularity
   }
 }

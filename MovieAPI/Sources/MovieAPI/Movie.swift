@@ -43,12 +43,27 @@ extension Movie {
         releaseDate = MovieDateFormatter.formatDate(from: movie.releaseDate)
         voteAverage = movie.voteAverage
         voteCount = movie.voteCount
-        overview = ""
+        overview = movie.overview
     }
 }
 
 extension Movie {
     init(movie: GetMovieQuery.Data.Movie) {
+        id = movie.id
+        title = movie.title
+        posterPath = movie.posterPath
+        genres = movie.genres
+        director = nil
+        releaseDate = MovieDateFormatter.formatDate(from: movie.releaseDate)
+        voteAverage = movie.voteAverage
+        voteCount = movie.voteCount
+        overview = movie.overview
+    }
+}
+
+extension Movie {
+    init?(movie: GetMoviesForGenreQuery.Data.Movie?) {
+        guard let movie else { return nil }
         id = movie.id
         title = movie.title
         posterPath = movie.posterPath

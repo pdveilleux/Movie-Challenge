@@ -71,8 +71,7 @@ struct MovieDetailView: View {
                                 }
                                 
                                 if let voteAverage = viewStore.movie.voteAverage {
-                                    Text("Rating: \(voteAverage.formatted(.number.precision(.significantDigits(2))))")
-                                        .font(.callout)
+                                    RatingLabel(rating: voteAverage)
                                 }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)

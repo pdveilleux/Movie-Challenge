@@ -4,13 +4,13 @@
 @_exported import ApolloAPI
 import GeneratedAPI
 
-public class GetTop5MoviesQuery: GraphQLQuery {
-  public static let operationName: String = "GetTop5MoviesQuery"
+public class GetMoviesForGenreQuery: GraphQLQuery {
+  public static let operationName: String = "GetMoviesForGenreQuery"
   public static let document: DocumentType = .notPersisted(
     definition: .init(
       """
-      query GetTop5MoviesQuery {
-        movies(orderBy: "voteAverage", sort: DESC, limit: 5) {
+      query GetMoviesForGenreQuery($genre: String!) {
+        movies(orderBy: "popularity", sort: DESC, genre: $genre) {
           __typename
           id
           title
@@ -21,12 +21,19 @@ public class GetTop5MoviesQuery: GraphQLQuery {
           runtime
           posterPath
           overview
+          popularity
         }
       }
       """
     ))
 
-  public init() {}
+  public var genre: String
+
+  public init(genre: String) {
+    self.genre = genre
+  }
+
+  public var __variables: Variables? { ["genre": genre] }
 
   public struct Data: GeneratedAPI.SelectionSet {
     public let __data: DataDict
@@ -35,9 +42,9 @@ public class GetTop5MoviesQuery: GraphQLQuery {
     public static var __parentType: ParentType { GeneratedAPI.Objects.Query }
     public static var __selections: [Selection] { [
       .field("movies", [Movie?]?.self, arguments: [
-        "orderBy": "voteAverage",
+        "orderBy": "popularity",
         "sort": "DESC",
-        "limit": 5
+        "genre": .variable("genre")
       ]),
     ] }
 
@@ -61,6 +68,7 @@ public class GetTop5MoviesQuery: GraphQLQuery {
         .field("runtime", Int.self),
         .field("posterPath", String?.self),
         .field("overview", String.self),
+        .field("popularity", Double.self),
       ] }
 
       public var id: Int { __data["id"] }
@@ -72,6 +80,7 @@ public class GetTop5MoviesQuery: GraphQLQuery {
       public var runtime: Int { __data["runtime"] }
       public var posterPath: String? { __data["posterPath"] }
       public var overview: String { __data["overview"] }
+      public var popularity: Double { __data["popularity"] }
     }
   }
 }

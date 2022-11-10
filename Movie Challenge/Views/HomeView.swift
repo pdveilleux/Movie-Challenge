@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 import MovieAPI
 import ComposableArchitecture
 
@@ -21,6 +20,7 @@ struct Home: ReducerProtocol {
         var navPath: [Route] = []
         var error: Error?
         var top5Movies: [Movie] = []
+        var genres: [String] = []
     }
     
     enum Route: Hashable {
@@ -30,12 +30,16 @@ struct Home: ReducerProtocol {
     
     enum Error {
         case unableToFetchMovies
+        case unableToFetchGenres
     }
 
     enum Action: Equatable {
         case loadTop5
         case top5Response(TaskResult<[Movie]>)
+        case loadGenres
+        case genresResponse(TaskResult<[String]>)
         case viewMovie(Movie)
+        case viewGenre(String)
         case updatePath([Route])
     }
 
@@ -58,8 +62,29 @@ struct Home: ReducerProtocol {
             state.error = .unableToFetchMovies
             return .none
             
+        case .loadGenres:
+            return .task {
+                await .genresResponse(
+                    TaskResult {
+                        try await apiService.getGenres()
+                    }
+                )
+            }
+        
+        case let .genresResponse(.success(genres)):
+            state.genres = genres.sorted(by: <)
+            return .none
+        
+        case .genresResponse(.failure):
+            state.error = .unableToFetchGenres
+            return .none
+        
         case let .viewMovie(movie):
             state.navPath.append(.movie(movie))
+            return .none
+            
+        case let .viewGenre(genre):
+            state.navPath.append(.genre(genre))
             return .none
 
         case let .updatePath(route):
@@ -80,7 +105,10 @@ struct HomeView: View {
                         Top5View(movies: viewStore.top5Movies) {
                             viewStore.send(.viewMovie($0))
                         }
-                        .frame(height: 180)
+                        
+                        GenresGridView(genres: viewStore.genres) {
+                            viewStore.send(.viewGenre($0))
+                        }
                     }
                 }
                 .navigationTitle("Movies")
@@ -93,12 +121,16 @@ struct HomeView: View {
                                 reducer: MovieDetail()))
                         
                     case let .genre(genre):
-                        Text(genre)
+                        MoviesListView(
+                            store: Store(
+                                initialState: MoviesList.State(genre: genre),
+                                reducer: MoviesList()))
                     }
                 }
             }
             .onAppear {
                 viewStore.send(.loadTop5)
+                viewStore.send(.loadGenres)
             }
         }
     }

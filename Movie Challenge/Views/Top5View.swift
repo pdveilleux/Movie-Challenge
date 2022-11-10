@@ -11,26 +11,35 @@ struct Top5View: View {
             ScrollView(.horizontal) {
                 LazyHStack {
                     ForEach(movies) { movie in
-                        MoviePosterView(movie: movie)
-                            .onTapGesture {
-                                tapHandler(movie)
+                        VStack {
+                            MoviePosterView(movie: movie)
+                                .frame(width: 120, height: 180)
+                                .onTapGesture {
+                                    tapHandler(movie)
+                                }
+                            
+                            if let voteAverage = movie.voteAverage {
+                                Label("\(voteAverage.formatted(.number.precision(.significantDigits(2))))", systemImage: "star.fill")
+                                    .labelStyle(.titleAndIcon)
+                                    .font(.callout)
                             }
+                        }
                     }
                 }
-                .padding()
+                .padding(.horizontal)
             }
-            .background(Color.red)
             .scrollIndicators(.hidden)
         } header: {
             HStack {
                 Text("Top 5")
                     .font(.title2)
                     .bold()
-                    .padding()
+                    .padding(.horizontal)
                 Spacer()
             }
-            
+//            .background(Color.pink)
         }
+//        .background(Color.yellow)
     }
 }
 
