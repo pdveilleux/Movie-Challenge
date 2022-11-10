@@ -22,7 +22,7 @@ public class APIService {
         }
     }
     
-    public func getMoviesForGenre(genre: String? = nil) async throws -> [Movie] {
+    public func getMovies(genre: String? = nil) async throws -> [Movie] {
         try await withCheckedThrowingContinuation { continuation in
             Network.shared.apollo.fetch(
                 query: GetMoviesForGenreQuery(

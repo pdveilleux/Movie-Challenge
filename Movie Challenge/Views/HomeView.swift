@@ -114,7 +114,7 @@ struct CatalogSectionView: View {
                             )
                         )
                     } label: {
-                        Label("Browse", systemImage: "magnifyingglass")
+                        Label("Browse All Movies", systemImage: "magnifyingglass")
                             .labelStyle(.titleOnly)
                     }
                 }

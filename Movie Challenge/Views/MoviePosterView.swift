@@ -11,6 +11,7 @@ struct MoviePosterView: View {
             image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
+                .cornerRadius(4)
         } placeholder: {
             Text(movie.title)
                 .font(.callout)

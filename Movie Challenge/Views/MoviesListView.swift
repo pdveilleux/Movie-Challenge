@@ -6,7 +6,6 @@ struct MoviesList: ReducerProtocol {
     @Dependency(\.apiService) var apiService
     
     struct State: Equatable {
-        var navPath: [Route] = []
         var error: Error?
         var filter: Filter = .init()
         var sort: Sort = .popularity(.descending) {
@@ -52,10 +51,6 @@ struct MoviesList: ReducerProtocol {
         var genre: String?
     }
     
-    enum Route: Hashable {
-        case movie(Movie)
-    }
-    
     enum Error {
         case unableToFetchMovies
     }
@@ -63,8 +58,6 @@ struct MoviesList: ReducerProtocol {
     enum Action: Equatable {
         case load
         case moviesResponse(TaskResult<[Movie]>)
-        case viewMovie(Movie)
-        case updatePath([Route])
         case sort(Sort)
     }
     
@@ -75,7 +68,7 @@ struct MoviesList: ReducerProtocol {
             return .task {
                 await .moviesResponse(
                     TaskResult {
-                        try await apiService.getMoviesForGenre(genre: filter.genre)
+                        try await apiService.getMovies(genre: filter.genre)
                     }
                 )
             }
@@ -87,14 +80,6 @@ struct MoviesList: ReducerProtocol {
             
         case .moviesResponse(.failure):
             state.error = .unableToFetchMovies
-            return .none
-            
-        case let .viewMovie(movie):
-            state.navPath.append(.movie(movie))
-            return .none
-
-        case let .updatePath(route):
-            state.navPath = route
             return .none
 
         case let .sort(sort):
