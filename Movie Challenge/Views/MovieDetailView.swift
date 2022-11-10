@@ -8,6 +8,7 @@ struct MovieDetail: ReducerProtocol {
     struct State: Equatable {
         var error: Error?
         var movie: Movie
+        var viewPoster: Bool = false
     }
     
     enum Error {
@@ -17,6 +18,8 @@ struct MovieDetail: ReducerProtocol {
     enum Action: Equatable {
         case load
         case movieResponse(TaskResult<Movie>)
+        case tapPoster
+        case updatePoster(Bool)
     }
     
     func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -38,6 +41,14 @@ struct MovieDetail: ReducerProtocol {
         case .movieResponse(.failure):
             state.error = .unableToFetchMovie
             return .none
+            
+        case .tapPoster:
+            state.viewPoster = true
+            return .none
+            
+        case let .updatePoster(showing):
+            state.viewPoster = showing
+            return .none
         }
     }
 }
@@ -54,7 +65,7 @@ struct MovieDetailView: View {
                         MoviePosterView(movie: viewStore.movie)
                             .frame(width: 160, height: 240)
                             .onTapGesture {
-                                // show poster sheet
+                                viewStore.send(.tapPoster)
                             }
                         
                         VStack(spacing: 4) {
@@ -150,6 +161,11 @@ struct MovieDetailView: View {
             .onAppear {
                 viewStore.send(.load)
             }
+            .sheet(isPresented: viewStore.binding(
+                get: \.viewPoster,
+                send: { .updatePoster($0) })) {
+                    MoviePosterView(movie: viewStore.movie)
+                }
         }
     }
 }

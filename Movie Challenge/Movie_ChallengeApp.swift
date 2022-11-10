@@ -6,7 +6,12 @@ import ComposableArchitecture
 struct Movie_ChallengeApp: App {
     var body: some Scene {
         WindowGroup {
-            RootView()
+            HomeView(
+                store: Store(
+                    initialState: Home.State(),
+                    reducer: Home()
+                )
+            )
         }
     }
 }
