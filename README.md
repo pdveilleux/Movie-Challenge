@@ -8,6 +8,8 @@ This project has been setup from scratch using [Apollo](https://www.apollographq
 
 GraphQL endpoint: https://podium-fe-challenge-2021.netlify.app/.netlify/functions/graphql
 
+<img src="https://user-images.githubusercontent.com/67702957/201158784-1db59dad-b399-4bcd-875c-1ff48dd6836d.PNG" width="200"> <img src="https://user-images.githubusercontent.com/67702957/201159114-c028c0fd-9646-4e56-bb09-43d8e455e0ea.PNG" width="200"> <img src="https://user-images.githubusercontent.com/67702957/201159190-0d6d07c7-ee25-4409-9c6e-627181bb483f.PNG" width="200">
+
 ## Setup
 
 ### Requirements
